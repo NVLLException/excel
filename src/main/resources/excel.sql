@@ -19,3 +19,12 @@ create table field(
 	`fieldName` varchar(255),
 	 primary key(`id`)
 )ENGINE=INNODB,CHARSET=utf8;
+drop table if exists formTracking;
+create table formTracking(
+	`id` int(11) auto_increment,
+	`infoId` int(11),
+	`dataId` int(11),
+	`userId` int(11),
+	`modifyTime` datetime,
+	primary key(`id`)
+)ENGINE=INNODB,CHARSET=utf8;
