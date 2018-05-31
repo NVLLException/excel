@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.excel.entity.User;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -39,7 +40,6 @@ public class ExcelUtil {
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(
                     excelFileName)); // 获整个Excel
             //构造form
-            lsb.append("<form name='fieldForm'>");
             for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
                 sheet = workbook.getSheetAt(sheetIndex);// 获所有的sheet
                 String sheetName = workbook.getSheetName(sheetIndex); // sheetName
@@ -146,7 +146,6 @@ public class ExcelUtil {
                     }
                 }
             }
-            lsb.append("</form>");
         } catch (FileNotFoundException e) {
             throw new Exception("文件 " + excelFileName + " 没有找到!");
         } catch (IOException e) {
@@ -285,7 +284,7 @@ public class ExcelUtil {
     }
 
 
-    public static void generateTable(String tableName, List<String> fileds) throws Exception{
+    public static String generateTableSql(String tableName, List<String> fileds) throws Exception{
         if(fileds != null && fileds.size() > 0 && !StringUtils.isEmpty(tableName)){
             StringBuffer buffer = new StringBuffer();
             buffer.append("create table ").append(tableName).append("(");
@@ -293,8 +292,29 @@ public class ExcelUtil {
             for(String filed : fileds){
                 buffer.append(filed).append(" varchar(1000),");
             }
-            buffer.append("primary key('id')");
+            buffer.append("createBy varchar(255),");
+            buffer.append("createTime datetime,");
+
+            buffer.append("primary key(`id`)");
             buffer.append(")ENGINE=INNODB,CHARSET=utf8;");
+            return buffer.toString();
         }
+        return "";
+    }
+
+    public static String generateFieldDataSql(String tableName, List<String> fields, List<String> values, User user){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("insert into ").append(tableName).append("(");
+        for(int i=0; i<fields.size();i++){
+            buffer.append("`").append(fields.get(i)).append("`").append(",");
+        }
+        buffer.append("createBy,createTime");
+        buffer.append(")values(");
+        for(int i=0; i<values.size();i++){
+            buffer.append("'").append(values.get(i)).append("'").append(",");
+        }
+        buffer.append(user.getNikeName()).append(",").append("now()");
+        buffer.append(")");
+        return buffer.toString();
     }
 }

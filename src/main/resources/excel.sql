@@ -12,3 +12,10 @@ create table fileInfo(
 	`createTime` datetime,
 	primary key(`id`)
 )ENGINE=INNODB,CHARSET=utf8;
+drop table if exists field;
+create table field(
+	`id` int(11) auto_increment,
+	`infoId` int(11),
+	`fieldName` varchar(255),
+	 primary key(`id`)
+)ENGINE=INNODB,CHARSET=utf8;

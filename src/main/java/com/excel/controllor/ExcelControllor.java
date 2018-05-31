@@ -19,6 +19,7 @@ import com.excel.service.FileInfoService;
 import com.excel.util.DataResponse;
 import com.excel.util.ExcelUtil;
 import com.excel.util.JSONUtil;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,9 +60,11 @@ public class ExcelControllor {
             FileInfo fileInfo = constructAndPersistFileInfo(now, randomExcelFileName, randomHtmlFileName);
 
             //根据excel的空白字段生成相应的表结构
-            ExcelUtil.generateTable(fileInfo.getTableName(),(ArrayList)result.get("fieldList"));
+            String tableSql = ExcelUtil.generateTableSql(fileInfo.getTableName(),(ArrayList)result.get("fieldList"));
+            fileInfoService.executeSql(tableSql);
 
             request.getSession().setAttribute("fileInfo", fileInfo);
+            request.getSession().setAttribute("fieldList", result.get("fieldList"));
             DataResponse dataResponse = new DataResponse();
             dataResponse.succ();
             JSONUtil.ajaxSendResponse(response,dataResponse);
@@ -90,7 +93,7 @@ public class ExcelControllor {
 
     private FileInfo constructAndPersistFileInfo(Long createTime, String randomExcelFileName, String randomHtmlFileName) throws Exception{
         FileInfo fileInfo = new FileInfo();
-        fileInfo.setTableName("e_"+ new Random().nextInt());
+        fileInfo.setTableName("e_"+ Math.abs(new Random().nextInt()));
         fileInfo.setCreateTime(new java.sql.Date(createTime));
         fileInfo.setExcelFileName(randomExcelFileName);
         fileInfo.setHtmlFileName(randomHtmlFileName);

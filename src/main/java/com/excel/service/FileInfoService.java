@@ -19,4 +19,9 @@ public class FileInfoService {
         mapper.createFileInfo(fileInfo);
         return fileInfo;
     }
+
+    @Transactional
+    public void executeSql(String sql){
+        mapper.executeSql(sql);
+    }
 }
