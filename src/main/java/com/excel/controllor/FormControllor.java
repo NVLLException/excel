@@ -3,14 +3,13 @@ package com.excel.controllor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.excel.entity.FileInfo;
 import com.excel.entity.User;
-import com.excel.service.FileInfoService;
+import com.excel.service.DataService;
 import com.excel.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/excel")
-public class FormBuildControllor {
+public class FormControllor {
     @Autowired
-    private FileInfoService fileInfoService;
+    private DataService fileInfoService;
 
     @RequestMapping("/configForm")
     public ModelAndView formBuild(HttpServletRequest request){

@@ -11,5 +11,6 @@ import lombok.Setter;
 public class User {
     private Integer id;
     private String nikeName;
+    private String loginName;
     private String password;
 }

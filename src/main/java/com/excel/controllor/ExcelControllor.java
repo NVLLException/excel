@@ -1,9 +1,7 @@
 package com.excel.controllor;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,12 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excel.entity.FileInfo;
-import com.excel.mapper.FileInfoMapper;
-import com.excel.service.FileInfoService;
+import com.excel.service.DataService;
 import com.excel.util.DataResponse;
 import com.excel.util.ExcelUtil;
 import com.excel.util.JSONUtil;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/excel")//request path
 public class ExcelControllor {
     @Autowired
-    private FileInfoService fileInfoService;
+    private DataService service;
 
     @RequestMapping("/upload")//requestpath
     public ModelAndView upload(){
@@ -61,7 +57,7 @@ public class ExcelControllor {
 
             //根据excel的空白字段生成相应的表结构
             String tableSql = ExcelUtil.generateTableSql(fileInfo.getTableName(),(ArrayList)result.get("fieldList"));
-            fileInfoService.executeSql(tableSql);
+            service.executeSql(tableSql);
 
             request.getSession().setAttribute("fileInfo", fileInfo);
             request.getSession().setAttribute("fieldList", result.get("fieldList"));
@@ -97,7 +93,7 @@ public class ExcelControllor {
         fileInfo.setCreateTime(new java.sql.Date(createTime));
         fileInfo.setExcelFileName(randomExcelFileName);
         fileInfo.setHtmlFileName(randomHtmlFileName);
-        fileInfoService.createFileInfo(fileInfo);
+        service.createFileInfo(fileInfo);
         return fileInfo;
     }
 

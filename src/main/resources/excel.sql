@@ -28,3 +28,13 @@ create table formTracking(
 	`modifyTime` datetime,
 	primary key(`id`)
 )ENGINE=INNODB,CHARSET=utf8;
+drop table if exists `user`;
+create table `user`(
+	`id` int(11) auto_increment,
+	`nikeName` varchar(255),
+	`loginName` varchar(255),
+	`password` varchar(255),
+	`createTime` datetime,
+	primary key(`id`),
+  unique(`loginName`)
+)ENGINE=INNODB,CHARSET=utf8;
