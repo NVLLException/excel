@@ -9,10 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/excel")
-public class UserControllor {
-    @RequestMapping("/login")
-    public ModelAndView page404(){
-        ModelAndView modelAndView = new ModelAndView("/login");
+public class CommonControllor {
+    @RequestMapping("/404")
+    public ModelAndView login(){
+        ModelAndView modelAndView = new ModelAndView("/404");
         return modelAndView;
     }
 }
