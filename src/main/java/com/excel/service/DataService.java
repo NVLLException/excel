@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.excel.entity.FileInfo;
+import com.excel.entity.User;
 import com.excel.mapper.DataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,19 @@ public class DataService {
     public FileInfo createFileInfo(FileInfo fileInfo){
         mapper.createFileInfo(fileInfo);
         return fileInfo;
+    }
+
+    public List<Map> checkLogin(String loginName, String password){
+        return mapper.checkLogin(loginName, password);
+    }
+
+    public Long checkLoginName(String loginName){
+        return mapper.checkLoginName(loginName);
+    }
+
+    @Transactional
+    public User createUser(User  user){
+        return mapper.createUser(user);
     }
 
     @Transactional

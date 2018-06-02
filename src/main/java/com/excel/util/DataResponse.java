@@ -33,6 +33,10 @@ public class DataResponse {
         this.statusCode = "success";
     }
 
+    public void error(){
+        this.statusCode = "error";
+    }
+
     public Object getData() {
         return data;
     }
