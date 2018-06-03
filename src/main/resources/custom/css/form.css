@@ -1,0 +1,10 @@
+.middleDiv{
+    max-width: 25%;
+    min-width:25%;
+    margin: auto;
+    margin-top: 10%;
+    box-shadow:0 0 1px 1px grey;
+}
+.block-label{
+    display: block;
+}

@@ -14,8 +14,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String path = request.getServletPath();
         //todo
-        if(!"/excel/404".equals(path))
-            response.sendRedirect("/excel/404");
+/*        if(!"/excel/404".equals(path))
+            response.sendRedirect("/excel/404");*/
         return true;
     }
 
