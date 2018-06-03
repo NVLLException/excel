@@ -8,3 +8,7 @@
 .block-label{
     display: block;
 }
+label.error{
+    color: #ff0000;
+    display: block;
+}

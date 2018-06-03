@@ -16,7 +16,7 @@ public class JSONUtil {
         }
     }
 
-    private static void ajaxSendResponse(HttpServletResponse response, String content) throws IOException{
+    public static void ajaxSendResponse(HttpServletResponse response, String content) throws IOException{
         if(content == null)
             content = "";
         PrintWriter writer = response.getWriter();

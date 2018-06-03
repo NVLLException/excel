@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="common/common.jsp"></jsp:include>
 <link rel="stylesheet" href="/css/form.css"/>
+<form name="registerForm" onsubmit="return false;">
 <div class="middleDiv">
     <fieldset>
     <div class="am-form-group">
@@ -9,7 +10,7 @@
     </div>
     <div class="am-form-group">
         <label class="block-label">登录名</label>
-        <input type="text" id="loginName" v-model="loginName"  placeholder="请输入登录名"/>
+        <input type="text" name="loginName"  placeholder="请输入登录名"/>
     </div>
     <div class="am-form-group">
         <label class="block-label">密码</label>
@@ -20,28 +21,63 @@
         <input type="password" name="retypePassword" placeholder="重新输入密码"/>
     </div>
     <div class="am-form-group">
-        <button class="am-btn  am-btn-default">注册</button>
+        <button class="am-btn  am-btn-default" name="register">注册</button>
     </div>
     </fieldset>
 </div>
+</form>
 <script type="text/javascript">
-    var loginName = new Vue({
-        el : 'loginName',
-        data : {
-            loginName : ""
-        },
-        methods : {
-            checkLoginName : function(){
+    $(document).ready(function(){
+        $('[name="register"]').off().on('click',function(){
+            var isValid = $('[name="registerForm"]').valid();
+            if(isValid){
                 $.ajax({
-                    url : '/excel/checkLoginName',
+                    url : '/excel/doRegister',
                     dataType : 'json',
                     method : 'post',
-                    data : {losginName : this.losginName}
+                    data : $('[name="registerForm"]').serialize()
                 }).done(function(result){
-                    if('error' == result.statusCode){
-
+                    if("success"==result.statusCode){
+                        window.location.href = "/excel/login";
+                    } else {
+                        alert("注册失败！");
                     }
                 });
+            }
+        });
+    });
+    $('[name="registerForm"]').validate({
+        rules : {
+            loginName : {
+                required : true,
+                remote: {
+                    url: "/excel/checkLoginName",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        loginName: function() {
+                            return $("#loginName").val();
+                        }
+                    }
+                }
+            },
+            password : {
+                required : true
+            },
+            retypePassword : {
+                required : true
+            }
+        },
+        messages : {
+            loginName : {
+                required : "登录名不能为空",
+                remote : "登录名不可用"
+            },
+            password : {
+                required : "密码不能为空"
+            },
+            retypePassword : {
+                required : "请再次输入密码"
             }
         }
     });

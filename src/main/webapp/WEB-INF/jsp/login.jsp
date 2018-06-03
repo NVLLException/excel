@@ -24,18 +24,20 @@
         });
 
         function loginSuccess(){
-            window.location.href = "/exce/formList";
+            window.location.href = "/excel/formList";
         }
 
         function checkLogin(_callback){
             $.ajax({
-                url : '/exce/login',
+                url : '/excel/checkLogin',
                 dataType : "json",
                 method : 'post',
                 data : {loginName : $('[name="loginName"]').val(), password : $('[name="password"]').val()}
             }).done(function(result){
                 if('success' == result.statusCode){
                     _callback();
+                } else {
+                    alert("登录失败! 请检查用户名和密码！");
                 }
             });
         }

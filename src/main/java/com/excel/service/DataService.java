@@ -33,8 +33,12 @@ public class DataService {
     }
 
     @Transactional
-    public User createUser(User  user){
-        return mapper.createUser(user);
+    public void createUser(User  user){
+        mapper.createUser(user);
+    }
+
+    public List<Map> retrieveAllFileInfo(){
+        return mapper.retrieveAllFileInfo();
     }
 
     @Transactional

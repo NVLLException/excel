@@ -26,7 +26,7 @@ public class UserControllor {
     DataService service;
 
     @RequestMapping("/login")
-    public ModelAndView page404(){
+    public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView("/login");
         return modelAndView;
     }
@@ -56,13 +56,17 @@ public class UserControllor {
     public ModelAndView checkLoginName(HttpServletRequest request, HttpServletResponse response){
         String loginName = request.getParameter("loginName");
         Long loginNameCount = service.checkLoginName(loginName);
-        DataResponse dataResponse = new DataResponse();
+        Boolean isValid;
         if(loginNameCount != null && loginNameCount.intValue()==0){
-            dataResponse.succ();
+            isValid = true;
         } else {
-            dataResponse.error();
+            isValid = false;
         }
-        JSONUtil.ajaxSendResponse(response, dataResponse);
+        try {
+            JSONUtil.ajaxSendResponse(response, isValid.toString());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 

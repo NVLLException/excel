@@ -1,12 +1,9 @@
 package com.excel.controllor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,14 +39,19 @@ public class ExcelControllor {
     public ModelAndView doUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
                                  HttpServletResponse response){
         try {
+            new FileOutputStream(new File("bb.txt"));
+
             byte[] bytes = file.getBytes();
             Long now = new Date().getTime();
-            String excelPath = "resources/excel/";
-            String htmlPath = "resources/html/";
+            ResourceBundle rb = ResourceBundle.getBundle("domain");
+            String excelPath = rb.getString("excelPath");
+            String htmlPath = rb.getString("htmlPath");
             String randomExcelFileName = now + ".xls";
             String randomHtmlFileName = now + ".html";
 
             saveExcelFile(excelPath + randomExcelFileName, bytes);
+
+
 
             Map<String,Object> result = ExcelUtil.parseExcel2Form(excelPath + randomExcelFileName);
             generateAndSaveHtmlFile((StringBuffer)result.get("html"), htmlPath + randomHtmlFileName);

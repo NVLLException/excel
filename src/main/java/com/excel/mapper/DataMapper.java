@@ -17,7 +17,8 @@ public interface DataMapper {
     public void createFileInfo(FileInfo fileInfo);
 
     @Select("select * from user where loginName=#{loginName} and password=#{password}")
-    public List<Map> checkLogin(String loginName, String password);
+    @ResultType(List.class)
+    public List<Map> checkLogin(@Param("loginName") String loginName, @Param("password") String password);
 
     @Select("select count(*) as count from user where loginName=#{lognName}")
     @ResultType(Long.class)
@@ -25,7 +26,13 @@ public interface DataMapper {
 
     @Insert("insert into user (loginName,nikeName,password,createTime)values(#{loginName},#{nikeName},#{password},now())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    public User createUser(User user);
+    public void createUser(User user);
+
+    @Select("select * from fileinfo")
+    @ResultType(List.class)
+    public List<Map> retrieveAllFileInfo();
+
+    @Select("select * from ")
 
     @Update("${sql}")
     public void executeSql(@Param("sql") String sql);

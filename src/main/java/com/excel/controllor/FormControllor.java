@@ -4,13 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 
 import com.excel.entity.FileInfo;
 import com.excel.entity.User;
 import com.excel.service.DataService;
+import com.excel.util.DataResponse;
 import com.excel.util.ExcelUtil;
+import com.excel.util.JSONUtil;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +30,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/excel")
 public class FormControllor {
     @Autowired
-    private DataService fileInfoService;
+    private DataService service;
 
     @RequestMapping("/configForm")
     public ModelAndView formBuild(HttpServletRequest request){
         try {
-            String htmlPath = "resources/html/";
+            String htmlPath = ResourceBundle.getBundle("domain").getString("htmlPath");
             ModelAndView modelAndView = new ModelAndView("/configForm");
             FileInfo fileInfo = (FileInfo) request.getSession().getAttribute("fileInfo");
             File htmlFile = new File(htmlPath + fileInfo.getHtmlFileName());
@@ -56,7 +63,28 @@ public class FormControllor {
         }
         User user = new User();//todo
         String fieldDataSql  = ExcelUtil.generateFieldDataSql(fileInfo.getTableName(), fieldNames, fieldValues, user);
-        fileInfoService.executeSql(fieldDataSql);
+        service.executeSql(fieldDataSql);
+        return null;
+    }
+
+    @RequestMapping("/formList")
+    public ModelAndView formList(HttpServletRequest request){
+        return new ModelAndView("/formList");
+    }
+
+    @RequestMapping("/getFormList")
+    public ModelAndView getFormList(HttpServletRequest request, HttpServletResponse response){
+        List<Map> list = service.retrieveAllFileInfo();
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setData(list);
+        dataResponse.succ();
+        JSONUtil.ajaxSendResponse(response, dataResponse);
+        return null;
+    }
+
+    @RequestMapping("/getFormInfoGroupByUser")
+    public ModelAndView getFormInfoGroupByUser(HttpServletRequest request, HttpServletResponse response){
+
         return null;
     }
 }
