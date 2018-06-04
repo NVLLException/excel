@@ -45,6 +45,10 @@ public class DataService {
         return mapper.retrieveFileInfoGroupByUser(formId);
     }
 
+    public List<Map> retrieveFileInfoDataByUserId(String tableName, String userId){
+        return mapper.retrieveFileInfoDataByUserId(tableName, userId);
+    }
+
     @Transactional
     public void executeSql(String sql){
         mapper.executeSql(sql);

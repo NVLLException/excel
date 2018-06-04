@@ -36,7 +36,9 @@ public interface DataMapper {
     @ResultType(List.class)
     public List<Map> retrieveFileInfoGroupByUser(@Param("formId") String formId);
 
-    @Select("select * from ")
+    @Select("select * from ${tableName} where userId=#{userId}")
+    @ResultType(List.class)
+    public List<Map> retrieveFileInfoDataByUserId(@Param("tableName") String tableName, @Param("userId") String userId);
 
     @Update("${sql}")
     public void executeSql(@Param("sql") String sql);
