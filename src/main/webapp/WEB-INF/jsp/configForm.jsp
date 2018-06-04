@@ -8,10 +8,15 @@
 %>
 <jsp:include page="common/common.jsp"></jsp:include>
 
+<div>
 <form name="fieldInputForm">
 <%=htmlString%>
 </form>
-<button name="createData">提交数据</button>
+    <div class="am-form-group">
+        <button name="createData" class="am-btn am-btn-default">提交数据</button>
+        <button name="returnList" class="am-btn am-btn-default">返回表单列表</button>
+    </div>
+</div>
 
 <script type="text/javascript">
     var fieldNames = <%=JSONArray.toJSONString(fieldList)%>;
@@ -24,6 +29,10 @@
             }).done(function(result){
 
             });
+        });
+
+        $('[name="returnList"]').off().on('click',function(){
+            window.location.href = "/excel/formList";
         });
     });
 </script>

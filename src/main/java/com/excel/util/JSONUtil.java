@@ -19,6 +19,7 @@ public class JSONUtil {
     public static void ajaxSendResponse(HttpServletResponse response, String content) throws IOException{
         if(content == null)
             content = "";
+        response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         writer.print(content);
         writer.flush();

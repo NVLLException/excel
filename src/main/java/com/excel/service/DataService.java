@@ -49,6 +49,14 @@ public class DataService {
         return mapper.retrieveFileInfoDataByUserId(tableName, userId);
     }
 
+    public List<User> retrieveUser(String id){
+        return mapper.retrieveUserById(Integer.valueOf(id));
+    }
+
+    public List<User> retrieveUser(String loginName, String password){
+        return mapper.retrieveUser(loginName,password);
+    }
+
     @Transactional
     public void executeSql(String sql){
         mapper.executeSql(sql);

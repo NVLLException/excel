@@ -40,6 +40,14 @@ public interface DataMapper {
     @ResultType(List.class)
     public List<Map> retrieveFileInfoDataByUserId(@Param("tableName") String tableName, @Param("userId") String userId);
 
+    @Select("select * from user where id=#{id}")
+    @ResultType(List.class)
+    public List<User> retrieveUserById(@Param("id") Integer id);
+
+    @Select("select * from user where loginName=#{loginName} and password=#{password}")
+    @ResultType(List.class)
+    public List<User> retrieveUser(@Param("loginName") String loginName, @Param("password") String password);
+
     @Update("${sql}")
     public void executeSql(@Param("sql") String sql);
 

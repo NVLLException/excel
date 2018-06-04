@@ -33,16 +33,18 @@
     });
 
     function renderList(infos){
-      console.log(infos);
       for(var i=0;i < infos.length ; i++){
         var info = infos[i];
         var id = info.id;
         var name = info.fileName;
+        console.log(name);
         var li = ' <li class="nav-li">'+
                ' <a href="loadFormData(' + id + ')">'+ name +'</a>'+
                ' </li>';
         $('[name="nav-menu"]').append(li);
       }
+      var new_li = "<li class='nav-li'><a href='/excel/upload'>创建新表单</a></li>";
+      $('[name="nav-menu"]').append(new_li);
     }
 
     function loadFormData(formId){
@@ -53,9 +55,14 @@
         data : {formId : formId}
       }).done(function(result){
         if('success' == result.statusCode){
-
+            showGroupFormData(result.data);
         }
       });
+    }
+    function showGroupFormData(datas){
+        for(var i=0;i<datas.length;i++){
+
+        }
     }
   });
 </script>

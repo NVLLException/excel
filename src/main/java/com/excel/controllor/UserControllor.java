@@ -35,11 +35,12 @@ public class UserControllor {
     public ModelAndView checkLogin(HttpServletRequest request, HttpServletResponse response){
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
-        List<Map> list = service.checkLogin(loginName, password);
+        List<User> users = service.retrieveUser(loginName, password);
 
         DataResponse dataResponse = new DataResponse();
-        if(list != null && list.size() > 0){
+        if(users != null && users.size() > 0){
             dataResponse.succ();
+            request.getSession().setAttribute("user", users.get(0));
         } else {
             dataResponse.addError("loginFailed");
         }

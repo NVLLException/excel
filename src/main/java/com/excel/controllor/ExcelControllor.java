@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excel.entity.FileInfo;
+import com.excel.entity.User;
 import com.excel.service.DataService;
 import com.excel.util.DataResponse;
 import com.excel.util.ExcelUtil;
 import com.excel.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,8 +41,7 @@ public class ExcelControllor {
     public ModelAndView doUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
                                  HttpServletResponse response){
         try {
-            new FileOutputStream(new File("bb.txt"));
-
+            String fileName = file.getName();
             byte[] bytes = file.getBytes();
             Long now = new Date().getTime();
             ResourceBundle rb = ResourceBundle.getBundle("domain");
@@ -55,7 +56,7 @@ public class ExcelControllor {
 
             Map<String,Object> result = ExcelUtil.parseExcel2Form(excelPath + randomExcelFileName);
             generateAndSaveHtmlFile((StringBuffer)result.get("html"), htmlPath + randomHtmlFileName);
-            FileInfo fileInfo = constructAndPersistFileInfo(now, randomExcelFileName, randomHtmlFileName);
+            FileInfo fileInfo = constructAndPersistFileInfo(request, fileName, now, randomExcelFileName, randomHtmlFileName);
 
             //根据excel的空白字段生成相应的表结构
             String tableSql = ExcelUtil.generateTableSql(fileInfo.getTableName(),(ArrayList)result.get("fieldList"));
@@ -89,8 +90,12 @@ public class ExcelControllor {
         out_html.close();
     }
 
-    private FileInfo constructAndPersistFileInfo(Long createTime, String randomExcelFileName, String randomHtmlFileName) throws Exception{
+    private FileInfo constructAndPersistFileInfo(HttpServletRequest request, String fileName, Long createTime, String randomExcelFileName, String randomHtmlFileName) throws Exception{
         FileInfo fileInfo = new FileInfo();
+        String formName = request.getParameter("formName");
+        User user = (User) request.getSession().getAttribute("user");
+        fileInfo.setUserId(user.getId());
+        fileInfo.setFileName(!StringUtils.isEmpty(formName) ? formName : fileName);
         fileInfo.setTableName("e_"+ Math.abs(new Random().nextInt()));
         fileInfo.setCreateTime(new java.sql.Date(createTime));
         fileInfo.setExcelFileName(randomExcelFileName);

@@ -3,6 +3,7 @@ package com.excel.Interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excel.entity.User;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,10 +14,28 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String path = request.getServletPath();
-        //todo
-/*        if(!"/excel/404".equals(path))
-            response.sendRedirect("/excel/404");*/
-        return true;
+
+        User user = (User)request.getSession().getAttribute("user");
+        if(user == null){
+            //not login
+            if("/excel/login".equals(path)||
+                    "/excel/checkLogin".equals(path)||
+                    "/excel/register".equals(path)||
+                    "/excel/checkLoginName".equals(path)||
+                    "/excel/doRegister".equals(path)||
+                    "/excel/404".equals(path)){
+                return true;
+            } else {
+                //禁止访问
+                if(!"/excel/login".equals(path))
+                    response.sendRedirect("/excel/404");
+                return false;
+            }
+        } else {
+            //logged
+            //todo check permission
+            return true;
+        }
     }
 
     @Override
