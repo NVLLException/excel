@@ -84,7 +84,12 @@ public class FormControllor {
 
     @RequestMapping("/getFormInfoGroupByUser")
     public ModelAndView getFormInfoGroupByUser(HttpServletRequest request, HttpServletResponse response){
-
+        String formId = request.getParameter("formId");
+        List<Map> list = service.retrieveFileInfoGroupByUser(formId);
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setData(list);
+        dataResponse.succ();
+        JSONUtil.ajaxSendResponse(response, dataResponse);
         return null;
     }
 }

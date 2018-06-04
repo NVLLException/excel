@@ -49,7 +49,8 @@
       $.ajax({
         url : '/excel/getFormInfoGroupByUser',
         dataType : 'json',
-        method : 'post'
+        method : 'post',
+        data : {formId : formId}
       }).done(function(result){
         if('success' == result.statusCode){
 

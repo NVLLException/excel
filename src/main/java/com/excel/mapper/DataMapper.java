@@ -32,6 +32,10 @@ public interface DataMapper {
     @ResultType(List.class)
     public List<Map> retrieveAllFileInfo();
 
+    @Select("select count(*) as count,fileinfo.userId from fileinfo where id=#{formId} group by userId")
+    @ResultType(List.class)
+    public List<Map> retrieveFileInfoGroupByUser(@Param("formId") String formId);
+
     @Select("select * from ")
 
     @Update("${sql}")
