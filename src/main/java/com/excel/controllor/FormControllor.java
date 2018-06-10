@@ -61,7 +61,7 @@ public class FormControllor {
             value = value != null ? value : "";
             fieldValues.add(value);
         }
-        User user = new User();//todo
+        User user = (User)request.getSession().getAttribute("user");
         String fieldDataSql  = ExcelUtil.generateFieldDataSql(fileInfo.getTableName(), fieldNames, fieldValues, user);
         service.executeSql(fieldDataSql);
         return null;
@@ -85,11 +85,32 @@ public class FormControllor {
     @RequestMapping("/getFormInfoGroupByUser")
     public ModelAndView getFormInfoGroupByUser(HttpServletRequest request, HttpServletResponse response){
         String formId = request.getParameter("formId");
-        List<Map> list = service.retrieveFileInfoGroupByUser(formId);
+        String tableName = request.getParameter("tableName");
+        List<Map> list = service.retrieveFileInfoGroupByUser(tableName);
         DataResponse dataResponse = new DataResponse();
         dataResponse.setData(list);
         dataResponse.succ();
         JSONUtil.ajaxSendResponse(response, dataResponse);
+        return null;
+    }
+
+    @RequestMapping("/retrieveFileInfoDataByUserId")
+    public ModelAndView retrieveFileInfoDataByUserId(HttpServletRequest request, HttpServletResponse response){
+        String tableName = request.getParameter("tableName");
+        String userId = request.getParameter("userId");
+        List<Map> list = service.retrieveFileInfoDataByUserId(tableName, userId);
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setData(list);
+        dataResponse.succ();
+        JSONUtil.ajaxSendResponse(response, dataResponse);
+        return null;
+    }
+
+    @RequestMapping("/deleteFileInfoData")
+    public ModelAndView deleteFileInfoData(HttpServletRequest request, HttpServletResponse response){
+        String tableName = request.getParameter("tableName");
+        String id = request.getParameter("id");
+
         return null;
     }
 }

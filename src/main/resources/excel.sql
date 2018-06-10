@@ -31,7 +31,7 @@ create table formTracking(
 drop table if exists `user`;
 create table `user`(
 	`id` int(11) auto_increment,
-	`nikeName` varchar(255),
+	`nickName` varchar(255),
 	`loginName` varchar(255),
 	`password` varchar(255),
 	`createTime` datetime,

@@ -24,7 +24,7 @@ public interface DataMapper {
     @ResultType(Long.class)
     public Long checkLoginName(String loginName);
 
-    @Insert("insert into user (loginName,nikeName,password,createTime)values(#{loginName},#{nikeName},#{password},now())")
+    @Insert("insert into user (loginName,nickName,password,createTime)values(#{loginName},#{nickName},#{password},now())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public void createUser(User user);
 
@@ -32,9 +32,9 @@ public interface DataMapper {
     @ResultType(List.class)
     public List<Map> retrieveAllFileInfo();
 
-    @Select("select count(*) as count,fileinfo.userId from fileinfo where id=#{formId} group by userId")
+    @Select(" select count(*) as count,user.id, user.nickName from ${tableName} left join user on  ${tableName}.userId = user.id   group by ${tableName}.userId")
     @ResultType(List.class)
-    public List<Map> retrieveFileInfoGroupByUser(@Param("formId") String formId);
+    public List<Map> retrieveFileInfoGroupByUser(@Param("tableName") String tableName);
 
     @Select("select * from ${tableName} where userId=#{userId}")
     @ResultType(List.class)

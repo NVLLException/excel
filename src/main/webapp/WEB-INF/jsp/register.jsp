@@ -6,7 +6,7 @@
     <fieldset>
     <div class="am-form-group">
         <label class="block-label">昵称</label>
-        <input type="text" name="nikeName" placeholder="请输入昵称"/>
+        <input type="text" name="nickName" placeholder="请输入昵称"/>
     </div>
     <div class="am-form-group">
         <label class="block-label">登录名</label>

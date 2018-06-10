@@ -41,8 +41,8 @@ public class DataService {
         return mapper.retrieveAllFileInfo();
     }
 
-    public List<Map> retrieveFileInfoGroupByUser(String formId){
-        return mapper.retrieveFileInfoGroupByUser(formId);
+    public List<Map> retrieveFileInfoGroupByUser(String tableName){
+        return mapper.retrieveFileInfoGroupByUser(tableName);
     }
 
     public List<Map> retrieveFileInfoDataByUserId(String tableName, String userId){

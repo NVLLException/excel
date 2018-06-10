@@ -75,10 +75,10 @@ public class UserControllor {
     public ModelAndView doRegister(HttpServletRequest request, HttpServletResponse response){
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
-        String nikeName = request.getParameter("nikeName");
+        String nickName = request.getParameter("nickName");
         User user = new User();
         user.setLoginName(loginName);
-        user.setNikeName(nikeName);
+        user.setNickName(nickName);
         user.setPassword(password);
         service.createUser(user);
         DataResponse dataResponse = new DataResponse();

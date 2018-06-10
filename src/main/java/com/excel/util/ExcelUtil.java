@@ -292,7 +292,8 @@ public class ExcelUtil {
             for(String filed : fileds){
                 buffer.append(filed).append(" varchar(1000),");
             }
-            buffer.append("createBy varchar(255),");
+            buffer.append("userId int(11),");
+            buffer.append("createBy int(11),");
             buffer.append("createTime datetime,");
 
             buffer.append("primary key(`id`)");
@@ -308,12 +309,12 @@ public class ExcelUtil {
         for(int i=0; i<fields.size();i++){
             buffer.append("`").append(fields.get(i)).append("`").append(",");
         }
-        buffer.append("createBy,createTime");
+        buffer.append("userId,createBy,createTime");
         buffer.append(")values(");
         for(int i=0; i<values.size();i++){
             buffer.append("'").append(values.get(i)).append("'").append(",");
         }
-        buffer.append(user.getNikeName()).append(",").append("now()");
+        buffer.append(user.getId()).append(",").append(user.getId()).append(",").append("now()");
         buffer.append(")");
         return buffer.toString();
     }
