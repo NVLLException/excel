@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="common/common.jsp"></jsp:include>
-<link rel="stylesheet" href="/css/form.css"/>
+<link rel="stylesheet" href="/nb/css/form.css"/>
 <div class="middleDiv">
     <fieldset>
     <form name="fileUpload" enctype="multipart/form-data" method="post">
@@ -23,7 +23,7 @@
 <script>
     $('[name="upload"]').off().on('click',function(){
         $.ajax({
-            url : "/excel/doUpload",
+            url : "/nb/excel/doUpload",
             method : "post",
             dataType : "json",
             enctype: 'multipart/form-data',
@@ -32,7 +32,7 @@
             contentType: false
         }).done(function(result){
             if("success" == result.statusCode){
-                window.location = "/excel/configForm";
+                window.location = "/nb/excel/configForm";
             } else {
                 console.error("error");
             }

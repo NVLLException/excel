@@ -51,7 +51,7 @@
     }
     FormList.prototype.loadLeftMenu = function(){
       $.ajax({
-        url : '/excel/getFormList',
+        url : '/nb/excel/getFormList',
         dataType : 'json',
         method : 'post'
       }).done(function(result) {
@@ -70,7 +70,7 @@
           $firstLi = $li;
         }
       }
-      var new_li = "<li class='nav-li'><a href='/excel/upload'>创建新表单</a></li>";
+      var new_li = "<li class='nav-li'><a href='/nb/excel/upload'>创建新表单</a></li>";
       $('#'+$defaults.leftMenuId).append(new_li);
       setTimeout(function(){
         $firstLi.find('a').trigger('click');
@@ -89,7 +89,7 @@
         $li.addClass('active-li');
 
         $.ajax({
-          url : '/excel/getFormInfoGroupByUser',
+          url : '/nb/excel/getFormInfoGroupByUser',
           dataType : 'json',
           method : 'post',
           data : {tableName : tableName}
@@ -139,7 +139,7 @@
 
     FormList.prototype.loadContent = function(info,userId,$content){
       $.ajax({
-        url : '/excel/retrieveFileInfoDataByUserId',
+        url : '/nb/excel/retrieveFileInfoDataByUserId',
         data : {tableName : info.tableName, userId : userId},
         dataType : "json",
         method : "post"

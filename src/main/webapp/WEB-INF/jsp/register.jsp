@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="common/common.jsp"></jsp:include>
-<link rel="stylesheet" href="/css/form.css"/>
+<link rel="stylesheet" href="/nb/css/form.css"/>
 <form name="registerForm" onsubmit="return false;">
 <div class="middleDiv">
     <fieldset>
@@ -32,13 +32,13 @@
             var isValid = $('[name="registerForm"]').valid();
             if(isValid){
                 $.ajax({
-                    url : '/excel/doRegister',
+                    url : '/nb/excel/doRegister',
                     dataType : 'json',
                     method : 'post',
                     data : $('[name="registerForm"]').serialize()
                 }).done(function(result){
                     if("success"==result.statusCode){
-                        window.location.href = "/excel/login";
+                        window.location.href = "/nb/excel/login";
                     } else {
                         alert("注册失败！");
                     }
@@ -51,7 +51,7 @@
             loginName : {
                 required : true,
                 remote: {
-                    url: "/excel/checkLoginName",
+                    url: "/nb/excel/checkLoginName",
                     type: "post",
                     dataType: "json",
                     data: {

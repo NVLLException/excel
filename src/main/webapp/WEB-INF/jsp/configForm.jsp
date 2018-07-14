@@ -23,7 +23,7 @@
     $(document).ready(function(){
         $('[name="createData"]').off().on('click',function(){
             $.ajax({
-                url : "/excel/createData",
+                url : "/nb/excel/createData",
                 dataType : "json",
                 data : $('[name="fieldInputForm"]').serialize()
             }).done(function(result){
@@ -32,7 +32,7 @@
         });
 
         $('[name="returnList"]').off().on('click',function(){
-            window.location.href = "/excel/formList";
+            window.location.href = "/nb/excel/formList";
         });
     });
 </script>
