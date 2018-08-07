@@ -54,4 +54,11 @@ public interface DataMapper {
     @Select("${sql}")
     @ResultType(List.class)
     public List<Map> executeQuerySql(@Param("sql") String sql);
+
+    @Select("select * from module")
+    @ResultType(List.class)
+    public List<Map> retrieveModuleList();
+
+    @Insert("insert into module(`name`)values(#{moduleName})")
+    public void addModule(@Param("moduleName") String moduleName);
 }

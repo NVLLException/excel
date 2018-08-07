@@ -24,7 +24,7 @@
         });
 
         function loginSuccess(){
-            window.location.href = "/nb/excel/formList";
+            window.location.href = "/nb/excel/moduleList";
         }
 
         function checkLogin(_callback){

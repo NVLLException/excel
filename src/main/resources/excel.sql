@@ -38,3 +38,16 @@ create table `user`(
 	primary key(`id`),
   unique(`loginName`)
 )ENGINE=INNODB,CHARSET=utf8;
+drop table if exists module;
+create table module(
+	`id` int(11) auto_increment not null,
+	`name` varchar(255),
+	`description` varchar(1024),
+	primary key (`id`)
+)ENGINE=INNODB,CHARSET=utf8;
+drop table if exists module;
+create table module(
+	`id` int(11) auto_increment not null,
+	`name` varchar(255) not null,
+	primary key(`id`)
+)ENGINE=INNODB,CHARSET=utf8;

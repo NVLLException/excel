@@ -66,4 +66,12 @@ public class DataService {
     public List executeQuerySql(String sql){
         return mapper.executeQuerySql(sql);
     }
+
+    public List getModuleList(){
+        return mapper.retrieveModuleList();
+    }
+
+    public void addModule(String moduleName){
+        mapper.addModule(moduleName);
+    }
 }

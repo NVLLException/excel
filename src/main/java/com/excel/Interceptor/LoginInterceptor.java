@@ -28,7 +28,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             } else {
                 //禁止访问
                 if(!"/excel/login".equals(path))
-                    response.sendRedirect("/excel/404");
+                    response.sendRedirect("/nb/excel/404");
                 return false;
             }
         } else {
