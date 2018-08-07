@@ -61,4 +61,7 @@ public interface DataMapper {
 
     @Insert("insert into module(`name`)values(#{moduleName})")
     public void addModule(@Param("moduleName") String moduleName);
+
+    @Delete("delete from module where id=#{id}")
+    public void deleteModule(@Param("id") String id);
 }

@@ -74,4 +74,8 @@ public class DataService {
     public void addModule(String moduleName){
         mapper.addModule(moduleName);
     }
+
+    public void deleteModule(String id){
+        mapper.deleteModule(id);
+    }
 }

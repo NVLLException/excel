@@ -52,4 +52,14 @@ public class ModuleControllor {
         JSONUtil.ajaxSendResponse(response, dataResponse);
         return null;
     }
+
+    @RequestMapping("/deleteModule")
+    public ModelAndView deleteModule(HttpServletRequest request, HttpServletResponse response) {
+        String moduleId = request.getParameter("id");
+        service.deleteModule(moduleId);
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.succ();
+        JSONUtil.ajaxSendResponse(response, dataResponse);
+        return null;
+    }
 }
