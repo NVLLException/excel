@@ -37,8 +37,8 @@ public class DataService {
         mapper.createUser(user);
     }
 
-    public List<Map> retrieveAllFileInfo(){
-        return mapper.retrieveAllFileInfo();
+    public List<Map> retrieveAllFileInfo(String moduleId){
+        return mapper.retrieveAllFileInfo(moduleId);
     }
 
     public List<Map> retrieveFileInfoGroupByUser(String tableName){

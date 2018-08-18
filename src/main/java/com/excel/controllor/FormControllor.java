@@ -69,12 +69,16 @@ public class FormControllor {
 
     @RequestMapping("/formList")
     public ModelAndView formList(HttpServletRequest request){
-        return new ModelAndView("/formList");
+        String moduleId = (String)request.getSession().getAttribute("moduleId");
+        ModelAndView modelAndView = new ModelAndView("/formList");
+        modelAndView.addObject("moduleId", moduleId);
+        return modelAndView;
     }
 
     @RequestMapping("/getFormList")
     public ModelAndView getFormList(HttpServletRequest request, HttpServletResponse response){
-        List<Map> list = service.retrieveAllFileInfo();
+        String moduleId = (String)request.getSession().getAttribute("moduleId");
+        List<Map> list = service.retrieveAllFileInfo(moduleId);
         DataResponse dataResponse = new DataResponse();
         dataResponse.setData(list);
         dataResponse.succ();

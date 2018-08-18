@@ -19,4 +19,5 @@ public class FileInfo {
     private String excelFileName;
     private String htmlFileName;
     private Date createTime;
+    private String moduleId;
 }

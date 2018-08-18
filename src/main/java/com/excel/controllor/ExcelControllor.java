@@ -32,8 +32,9 @@ public class ExcelControllor {
     private DataService service;
 
     @RequestMapping("/upload")//requestpath
-    public ModelAndView upload(){
+    public ModelAndView upload(@RequestParam String moduleId, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("/upload");//forward jsp file
+        request.getSession().setAttribute("moduleId", moduleId);
         return modelAndView;
     }
 
@@ -41,6 +42,7 @@ public class ExcelControllor {
     public ModelAndView doUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
                                  HttpServletResponse response){
         try {
+            String moduleId = (String)request.getSession().getAttribute("moduleId");
             String fileName = file.getName();
             byte[] bytes = file.getBytes();
             Long now = new Date().getTime();
@@ -94,6 +96,8 @@ public class ExcelControllor {
         FileInfo fileInfo = new FileInfo();
         String formName = request.getParameter("formName");
         User user = (User) request.getSession().getAttribute("user");
+        String moduleId =  (String)request.getSession().getAttribute("moduleId");
+        fileInfo.setModuleId(moduleId);
         fileInfo.setUserId(user.getId());
         fileInfo.setFileName(!StringUtils.isEmpty(formName) ? formName : fileName);
         fileInfo.setTableName("e_"+ Math.abs(new Random().nextInt()));

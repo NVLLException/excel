@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Mapper
 public interface DataMapper {
-    @Insert("insert into fileInfo(userId,fileName,tableName,excelFileName,htmlFileName,createTime)values(#{userId},#{fileName},#{tableName},#{excelFileName},#{htmlFileName},now())")
+    @Insert("insert into fileInfo(moduleId,userId,fileName,tableName,excelFileName,htmlFileName,createTime)values(#{moduleId},#{userId},#{fileName},#{tableName},#{excelFileName},#{htmlFileName},now())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public void createFileInfo(FileInfo fileInfo);
 
@@ -24,13 +24,13 @@ public interface DataMapper {
     @ResultType(Long.class)
     public Long checkLoginName(String loginName);
 
-    @Insert("insert into user (loginName,nickName,password,createTime)values(#{loginName},#{nickName},#{password},now())")
+    @Insert("insert into user (loginName,nickName,password,createTime, isAdmin)values(#{loginName},#{nickName},#{password},now(),#{isAdmin})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public void createUser(User user);
 
-    @Select("select * from fileinfo")
+    @Select("select * from fileinfo where moduleId=#{moduleId}")
     @ResultType(List.class)
-    public List<Map> retrieveAllFileInfo();
+    public List<Map> retrieveAllFileInfo(@Param("moduleId") String moduleId);
 
     @Select(" select count(*) as count,user.id, user.nickName from ${tableName} left join user on  ${tableName}.userId = user.id   group by ${tableName}.userId")
     @ResultType(List.class)

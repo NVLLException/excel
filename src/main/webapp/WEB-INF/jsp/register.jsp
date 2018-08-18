@@ -2,6 +2,7 @@
 <jsp:include page="common/common.jsp"></jsp:include>
 <link rel="stylesheet" href="/nb/css/form.css"/>
 <form name="registerForm" onsubmit="return false;">
+    <input name="isAdmin" value="<%=request.getAttribute("isAdmin") != null ? request.getAttribute("isAdmin") : 0%>"/>
 <div class="middleDiv">
     <fieldset>
     <div class="am-form-group">

@@ -49,8 +49,10 @@ public class UserControllor {
     }
 
     @RequestMapping("/register")
-    public ModelAndView regidter(){
-        return new ModelAndView("/register");
+    public ModelAndView regidter(String isAdmin){
+        ModelAndView modelAndView = new ModelAndView("/register");
+        modelAndView.addObject("isAdmin", isAdmin);
+        return modelAndView;
     }
 
     @RequestMapping("/checkLoginName")
@@ -76,10 +78,12 @@ public class UserControllor {
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
         String nickName = request.getParameter("nickName");
+        String isAdmin = request.getParameter("isAdmin");
         User user = new User();
         user.setLoginName(loginName);
         user.setNickName(nickName);
         user.setPassword(password);
+        user.setIsAdmin(isAdmin);
         service.createUser(user);
         DataResponse dataResponse = new DataResponse();
         dataResponse.succ();

@@ -1,5 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.excel.entity.User" %>
 <jsp:include page="common/common.jsp"></jsp:include>
+<%
+  User user = (User)request.getSession().getAttribute("user");
+  String isAdmin = user.getIsAdmin();
+  String moduleId = request.getParameter("moduleId");
+%>
 <style>
   .nav-li{
     width: 100%!important;
@@ -70,8 +76,10 @@
           $firstLi = $li;
         }
       }
-      var new_li = "<li class='nav-li'><a href='/nb/excel/upload'>创建新表单</a></li>";
-      $('#'+$defaults.leftMenuId).append(new_li);
+      <%if("1".equals(isAdmin) || "2".equals(isAdmin)){%>
+        var new_li = "<li class='nav-li'><a href='/nb/excel/upload?moduleId=<%=moduleId%>'>创建新表单</a></li>";
+        $('#'+$defaults.leftMenuId).append(new_li);
+      <%}%>
       setTimeout(function(){
         $firstLi.find('a').trigger('click');
       },0);
@@ -158,7 +166,7 @@
           var tr = $('<tr/>');
           var td1 = $('<td/>');
           var td2 = $('<td style="text-align: right"/>');
-          td1.append("创建时间: "+data[i].createTime);
+          td1.append("创建时间: "+this.formatDate(data[i].createTime));
           tr.append(td1);
           tr.append(td2);
           tbody.append(tr);
@@ -169,6 +177,13 @@
         $content.append(table);
       }
     }
+   FormList.prototype.formatDate = function(timeStamp){
+        var date = new Date(timeStamp)
+       var year = date.getYear()+1900;
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        return month + "/" + day + "/" + year;
+   }
 
     FormList.prototype.bindAction = function(data, info, $td){
       var $span = $('<span/>');

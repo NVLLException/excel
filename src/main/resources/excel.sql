@@ -4,6 +4,7 @@ use mqjia;
 drop table if exists fileInfo;
 create table fileInfo(
 	`id` int(11) auto_increment,
+	`moduleId` int(11),
 	`userId` int(11),
 	`fileName` varchar(255),
 	`tableName` varchar(255),
@@ -35,6 +36,7 @@ create table `user`(
 	`loginName` varchar(255),
 	`password` varchar(255),
 	`createTime` datetime,
+	`isAdmin` tinyint(1) default 0,
 	primary key(`id`),
   unique(`loginName`)
 )ENGINE=INNODB,CHARSET=utf8;
