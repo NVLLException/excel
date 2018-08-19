@@ -73,6 +73,18 @@ public class FormControllor {
     @RequestMapping("/editForm")
     public ModelAndView editForm(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("/configForm");
+        getFormData(modelAndView, request);
+        return modelAndView;
+    }
+
+    @RequestMapping("/viewForm")
+    public ModelAndView viewForm(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView("/formView");
+        getFormData(modelAndView, request);
+        return modelAndView;
+    }
+
+    private void getFormData(ModelAndView modelAndView, HttpServletRequest request){
         String infoId = request.getParameter("infoId");
         String dataId = request.getParameter("dataId");
         List<FileInfo> files = service.retrieveFileInfo(infoId);
@@ -94,7 +106,6 @@ public class FormControllor {
         } catch (Exception e){
             e.fillInStackTrace();
         }
-        return modelAndView;
     }
 
     @RequestMapping("/createData")

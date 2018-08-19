@@ -235,10 +235,16 @@
       $span.append($edit);
       $span.append($delete);
       $td.append($span);
+      $this.bindViewAction($view,data,info);
       $this.bindEditAction($edit,data,info);
       $this.bindDeleteAction($delete,data,info);
     }
 
+      FormList.prototype.bindViewAction = function($view, data, info){
+          $view.off().on('click',function(){
+              window.location.href = '/nb/excel/viewForm?infoId='+ info.id +"&dataId=" + data.id;
+          })
+      }
     FormList.prototype.bindEditAction = function($edit, data, info){
         $edit.off().on('click',function(){
            window.location.href = '/nb/excel/editForm?infoId='+ info.id +"&dataId=" + data.id;

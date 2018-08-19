@@ -30,7 +30,7 @@
         <%}%>
     </section>
     </form>
-    <button type="button" class="am-btn am-btn-default">返回</button>
+    <button type="button" class="am-btn am-btn-default" onclick="backToList()">返回</button>
     <button type="button" class="am-btn am-btn-default" onclick="savePermission()">保存</button>
 </div>
 <script>
@@ -46,6 +46,9 @@
                 alert("保存失败！");
             }
         })
+    }
+    function backToList(){
+        window.location.href = '/nb/excel/moduleList'
     }
 </script>
 <style>
