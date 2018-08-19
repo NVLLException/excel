@@ -5,15 +5,17 @@
     User user = (User)request.getSession().getAttribute("user");
     String isAdmin = user.getIsAdmin();
 %>
+<%if("2".equals(isAdmin)){%>
 <div class="adminList am-g">
     <h1>权限管理</h1>
     <div class='module middleDiv am-u-sm-3' onclick="addAdminUser()">
         添加管理员
     </div>
     <div class='module middleDiv am-u-sm-3' onclick="assignPermission()">
-        分配表单权限
+        分配模块权限
     </div>
 </div>
+<%}%>
 <div class="moduleList am-g">
     <h1>模块管理</h1>
 </div>
@@ -33,8 +35,10 @@
             var action = $('<div class="action"></div>');
             var addForm = $('<button class="am-btn am-btn-default" onclick="addForm(' + datas[key].id + ')">添加表单</button>');
             var manageForm = $('<button class="am-btn am-btn-default" onclick="manageForm(' + datas[key].id + ')"">管理表单</button>');
-            var deleteModule = $('<button class="am-btn am-btn-default" onclick=deleteModule('+ datas[key].id +')>删除</button>');
-            action.append(addForm);
+            var deleteModule = $('<br><button class="am-btn am-btn-default" onclick=deleteModule('+ datas[key].id +')>删除</button>');
+            <%if("1".equals(isAdmin) || "2".equals(isAdmin)){%>
+                action.append(addForm);
+            <%}%>
             action.append(manageForm);
             <%if("2".equals(isAdmin)){%>
             action.append(deleteModule);
@@ -42,8 +46,10 @@
             module.append(action);
             $('.moduleList').append(module);
         }
+        <%if("2".equals(isAdmin)){%>
         $('.moduleList').append("<div class='module addModule am-u-sm-3'><span class='fa fa-plus module-text'></span></div>");
         addNewModule($('.addModule'))
+        <%}%>
     }
 
     function addNewModule($ele){
@@ -102,9 +108,12 @@
         overflow: hidden;
         white-space:nowrap;
     }
+    .middleDiv:hover{
+        background: antiquewhite;
+    }
     .middleDiv .action{
         display: none;
-        margin-top: 70px;
+        margin-top: 45px;
     }
     .middleDiv:hover .action{
         display: block;

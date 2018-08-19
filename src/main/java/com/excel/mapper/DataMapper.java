@@ -36,6 +36,10 @@ public interface DataMapper {
     @ResultType(List.class)
     public List<Map> retrieveFileInfoGroupByUser(@Param("tableName") String tableName);
 
+    @Select(" select count(*) as count,user.id, user.nickName from ${tableName} left join user on  ${tableName}.userId = user.id  where ${tableName}.userId =#{userId} group by ${tableName}.userId ")
+    @ResultType(List.class)
+    public List<Map> retrieveFileInfoByUserId(@Param("tableName") String tableName, @Param("userId") String userId);
+
     @Select("select * from ${tableName} where userId=#{userId}")
     @ResultType(List.class)
     public List<Map> retrieveFileInfoDataByUserId(@Param("tableName") String tableName, @Param("userId") String userId);
@@ -48,6 +52,10 @@ public interface DataMapper {
     @ResultType(List.class)
     public List<User> retrieveUser(@Param("loginName") String loginName, @Param("password") String password);
 
+    @Select("select * from fileInfo where id=#{id}")
+    @ResultType(List.class)
+    public List<FileInfo> retrieveFileInfo(@Param("id") String id);
+
     @Update("${sql}")
     public void executeSql(@Param("sql") String sql);
 
@@ -58,6 +66,10 @@ public interface DataMapper {
     @Select("select * from module")
     @ResultType(List.class)
     public List<Map> retrieveModuleList();
+
+    @Select("select module.* from module left join permission on module.id = permission.moduleId where permission.userId=#{userId}")
+    @ResultType(List.class)
+    public List<Map> retrieveModuleListByUserId(@Param("userId") String userId);
 
     @Insert("insert into module(`name`)values(#{moduleName})")
     public void addModule(@Param("moduleName") String moduleName);

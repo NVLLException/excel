@@ -45,6 +45,10 @@ public class DataService {
         return mapper.retrieveFileInfoGroupByUser(tableName);
     }
 
+    public List<Map> retrieveFileInfoByUserId(String tableName, String userId){
+        return mapper.retrieveFileInfoByUserId(tableName, userId);
+    }
+
     public List<Map> retrieveFileInfoDataByUserId(String tableName, String userId){
         return mapper.retrieveFileInfoDataByUserId(tableName, userId);
     }
@@ -71,11 +75,19 @@ public class DataService {
         return mapper.retrieveModuleList();
     }
 
+    public List retrieveModuleListByUserId(String userId){
+        return mapper.retrieveModuleListByUserId(userId);
+    }
+
     public void addModule(String moduleName){
         mapper.addModule(moduleName);
     }
 
     public void deleteModule(String id){
         mapper.deleteModule(id);
+    }
+
+    public List<FileInfo> retrieveFileInfo(String id){
+        return mapper.retrieveFileInfo(id);
     }
 }

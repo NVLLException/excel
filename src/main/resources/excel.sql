@@ -53,3 +53,11 @@ create table module(
 	`name` varchar(255) not null,
 	primary key(`id`)
 )ENGINE=INNODB,CHARSET=utf8;
+drop table if exists permission;
+create table permission(
+	`id` int(11) auto_increment not null,
+	`userId` int(11),
+	`moduleId` int(11),
+	primary key(`id`)
+)ENGINE=INNODB,CHARSET=utf8;
+insert into `user`(`nickName`, `loginName`, `password`,`isAdmin`)values('最高管理员','admin','admin','2');

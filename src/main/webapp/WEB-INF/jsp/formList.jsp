@@ -87,11 +87,11 @@
     FormList.prototype.bindLeftMenuEvent = function($li,info){
       var fileName = info.fileName;
       var tableName = info.tableName;
+      var $linkP = $("<span/>")
       var $link = $('<a/>');
       $link.append(fileName);
       $li.append($link);
       $link.off().on('click',function(){
-
         //添加样式
         $('#'+$defaults.leftMenuId).find('li').removeClass('active-li');
         $li.addClass('active-li');
@@ -107,15 +107,46 @@
           }
         });
       });
+
+      <%if(!"0".equals(user.getIsAdmin())){%>
+      var deleteForm = $('<span style="float: right;" class="deleteForm"><span class="fa fa-trash-o fa-fw"></span>&nbsp;删除</span>');
+      $link.append(deleteForm);
+      this.deleteForm(deleteForm,info)
+       <%}%>
     }
+
+    FormList.prototype.deleteForm = function($el,$info){
+        $el.off().on('click',function(e){
+            e.stopPropagation();
+           $.ajax({
+               url: '/nb/excel/deleteFormStruct',
+               data: {infoId: $info.id},
+               dataType: 'json'
+           }).done(function(){
+               window.location.reload();
+           })
+        });
+    }
+
     FormList.prototype.renderGroupFormData = function(info,datas){
       if(datas && datas.length > 0){
         $('#'+$defaults.rightListId).empty();
         for(var i=0;i<datas.length;i++){
           $this.renderGroupForm(info,datas[i]);
         }
+      } else {
+          this.noData(info);
       }
     }
+    FormList.prototype.noData = function(info){
+        var span = $('<span>当前表单无数据</span>');
+       var addData = $('<a href="#" style="margin-right: 20px" class="addData">添加数据</a>');
+        $('#'+$defaults.rightListId).empty();
+        $('#'+$defaults.rightListId).append(span);
+        $('#'+$defaults.rightListId).append(addData);
+        this.bindAddDataEvent(addData, info, null);
+    }
+
     FormList.prototype.renderGroupForm = function(info,data){
       var el = $('<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion="{ }"/>');
       var dl = $('<dl class="am-accordion-item"/>');
@@ -123,13 +154,23 @@
       var dd = $('<dd class="am-accordion-bd am-collapse"/>');
       var content = $('<div class="am-accordion-content"/>');
       dt.append(data.nickName);
+        dt.append("(#" + data.id + ")");
+      var addData = $('<a href="#" style="float: right;margin-right: 20px" class="addData">添加数据</a>');
       dt.append('<span style="float: right;margin-right: 20px">共创建/修改(' + data.count + ')条数据</span>');
+        dt.append(addData);
       dd.append(content);
       dl.append(dt);
       dl.append(dd);
       el.append(dl);
       $this.bindPanelEvent(dl,dt,dd,content,info,data.id);
+      this.bindAddDataEvent(addData, info, data);
       $('#'+$defaults.rightListId).append(el);
+    }
+
+    FormList.prototype.bindAddDataEvent = function(addData, info, data){
+        addData.off().on('click',function(){
+            window.location.href = '/nb/excel/addData?infoId=' + info.id;
+        })
     }
 
     FormList.prototype.bindPanelEvent = function($dl,$dt,$dd,$content,info,userId){
@@ -194,13 +235,27 @@
       $span.append($edit);
       $span.append($delete);
       $td.append($span);
+      $this.bindEditAction($edit,data,info);
       $this.bindDeleteAction($delete,data,info);
+    }
+
+    FormList.prototype.bindEditAction = function($edit, data, info){
+        $edit.off().on('click',function(){
+           window.location.href = '/nb/excel/editForm?infoId='+ info.id +"&dataId=" + data.id;
+        })
+
     }
 
     FormList.prototype.bindDeleteAction = function($delete,data,info){
       $delete.attr("data-am-modal","{target: '#deleteModel'}");
       $('#'+$defaults.deleteId).find('#delete').off().on('click',function(){
-
+          $.ajax({
+              url: '/nb/excel/deleteForm',
+              dataType: 'json',
+              data: {dataId: data.id, tableName: info.tableName}
+          }).done(function(){
+             window.location.reload();
+          });
       });
     }
 
@@ -213,4 +268,9 @@
   };
   new FormList(options);
 </script>
+<style>
+    .deleteForm{
+        cursor: pointer;
+    }
+</style>
 

@@ -34,6 +34,8 @@ public class ExcelControllor {
     @RequestMapping("/upload")//requestpath
     public ModelAndView upload(@RequestParam String moduleId, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("/upload");//forward jsp file
+        if(moduleId == null || moduleId.equals("null"))
+            moduleId = (String)request.getSession().getAttribute("moduleId");
         request.getSession().setAttribute("moduleId", moduleId);
         return modelAndView;
     }

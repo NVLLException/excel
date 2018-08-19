@@ -1,5 +1,6 @@
 package com.excel.controllor;
 
+import com.excel.entity.User;
 import com.excel.service.DataService;
 import com.excel.util.DataResponse;
 import com.excel.util.JSONUtil;
@@ -45,7 +46,13 @@ public class ModuleControllor {
 
     @RequestMapping("/getModuleList")
     public ModelAndView getModuleList(HttpServletRequest request, HttpServletResponse response) {
-        List modules = service.getModuleList();
+        User user = (User)request.getSession().getAttribute("user");
+        List modules = null;
+        if(!"1".equals(user.getIsAdmin())) {
+             modules = service.getModuleList();
+        } else {
+            modules = service.retrieveModuleListByUserId(user.getId().toString());
+        }
         DataResponse dataResponse = new DataResponse();
         dataResponse.succ();
         dataResponse.setData(modules);

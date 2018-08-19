@@ -5,11 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.excel.entity.User;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -22,6 +18,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by mqjia on 5/31/2018.
@@ -317,5 +315,24 @@ public class ExcelUtil {
         buffer.append(user.getId()).append(",").append(user.getId()).append(",").append("now()");
         buffer.append(")");
         return buffer.toString();
+    }
+
+    public static String editFileDataSql(String tableName, List<String> fields, List<String> values, User user, String id){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("update " + tableName + " set ");
+        for(int i=0; i< fields.size(); i++){
+            buffer.append(fields.get(i) + " = " + ( !StringUtils.isEmpty(values.get(i)) ? "'" + values.get(i) + "'" : "null"));
+            buffer.append(",");
+        }
+        buffer.append(" userId=" + user.getId());
+        buffer.append(" where id=" + id);
+        return buffer.toString();
+    }
+
+    public static void removeSession(HttpServletRequest request) {
+        Enumeration<String> sessionNams = request.getSession().getAttributeNames();
+        while (sessionNams.hasMoreElements()){
+            request.getSession().removeAttribute(sessionNams.nextElement());
+        }
     }
 }

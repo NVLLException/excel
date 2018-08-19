@@ -1,8 +1,16 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.excel.entity.User" %>
 <jsp:include page="common/common.jsp"></jsp:include>
+<%
+    User user = (User)request.getSession().getAttribute("user");
+    if(user == null){
+        user = new User();
+    }
+    String isAdmin = request.getParameter("isAdmin");
+%>
 <link rel="stylesheet" href="/nb/css/form.css"/>
 <form name="registerForm" onsubmit="return false;">
-    <input name="isAdmin" value="<%=request.getAttribute("isAdmin") != null ? request.getAttribute("isAdmin") : 0%>"/>
+    <input type="hidden" name="isAdmin" value="<%=request.getAttribute("isAdmin") != null ? request.getAttribute("isAdmin") : 0%>"/>
 <div class="middleDiv">
     <fieldset>
     <div class="am-form-group">
@@ -39,7 +47,11 @@
                     data : $('[name="registerForm"]').serialize()
                 }).done(function(result){
                     if("success"==result.statusCode){
+                        <%if("1".equals(isAdmin)){%>
+                        window.location.href = "/nb/excel/moduleList";
+                        <%} else {%>
                         window.location.href = "/nb/excel/login";
+                        <%}%>
                     } else {
                         alert("注册失败！");
                     }

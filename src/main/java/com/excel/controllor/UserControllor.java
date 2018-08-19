@@ -1,5 +1,6 @@
 package com.excel.controllor;
 
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excel.entity.User;
 import com.excel.service.DataService;
 import com.excel.util.DataResponse;
+import com.excel.util.ExcelUtil;
 import com.excel.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +28,20 @@ public class UserControllor {
     DataService service;
 
     @RequestMapping("/login")
-    public ModelAndView login(){
+    public ModelAndView login(HttpServletRequest request){
+        ExcelUtil.removeSession(request);
         ModelAndView modelAndView = new ModelAndView("/login");
         return modelAndView;
     }
+
+    @RequestMapping("/logOut")
+    public ModelAndView logOut(HttpServletRequest request){
+        ExcelUtil.removeSession(request);
+        ModelAndView modelAndView = new ModelAndView("/login");
+        return modelAndView;
+    }
+
+
 
     @RequestMapping("/checkLogin")
     public ModelAndView checkLogin(HttpServletRequest request, HttpServletResponse response){
@@ -49,7 +61,10 @@ public class UserControllor {
     }
 
     @RequestMapping("/register")
-    public ModelAndView regidter(String isAdmin){
+    public ModelAndView regidter(String isAdmin, HttpServletRequest request){
+        if("!".equals(isAdmin)){
+            ExcelUtil.removeSession(request);
+        }
         ModelAndView modelAndView = new ModelAndView("/register");
         modelAndView.addObject("isAdmin", isAdmin);
         return modelAndView;
